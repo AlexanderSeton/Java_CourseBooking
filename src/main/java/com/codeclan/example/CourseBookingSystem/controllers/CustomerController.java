@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @RestController
@@ -63,9 +64,11 @@ public class CustomerController {
             @RequestParam(name = "age", required = false) Integer age
     ){
         if (id != null && town != null && age != null) {
-            return new ResponseEntity<>(customerRepository.findCustomersByTownAndBookingsCourseIdAndAgeGreaterThan(town, id.longValue(), age), HttpStatus.OK);
+            String newTown = town.substring(0, 1).toUpperCase() + town.substring(1, town.length()).toLowerCase();
+            return new ResponseEntity<>(customerRepository.findCustomersByTownAndBookingsCourseIdAndAgeGreaterThan(newTown, id.longValue(), age), HttpStatus.OK);
         } else if (id != null && town != null){
-            return new ResponseEntity<>(customerRepository.findCustomersByTownAndBookingsCourseId(town, id.longValue()), HttpStatus.OK);
+           String newTown = town.substring(0, 1).toUpperCase() + town.substring(1, town.length()).toLowerCase();
+            return new ResponseEntity<>(customerRepository.findCustomersByTownAndBookingsCourseId(newTown, id.longValue()), HttpStatus.OK);
         } else if (id != null){
             return new ResponseEntity<>(customerRepository.findCustomersByBookingsCourseId(id.longValue()), HttpStatus.OK);
         } else {
