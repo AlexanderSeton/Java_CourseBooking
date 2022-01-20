@@ -1,6 +1,7 @@
 package com.codeclan.example.CourseBookingSystem.controllers;
 
 import com.codeclan.example.CourseBookingSystem.models.Course;
+import com.codeclan.example.CourseBookingSystem.models.CourseRating;
 import com.codeclan.example.CourseBookingSystem.models.Customer;
 import com.codeclan.example.CourseBookingSystem.repositories.CourseRepository;
 import com.codeclan.example.CourseBookingSystem.repositories.CustomerRepository;
@@ -22,11 +23,11 @@ public class CourseController {
     CourseRepository courseRepository;
 
     @GetMapping(value = "/courses")
-    public ResponseEntity<List<Course>> findCourseFilterByCustomer(
-            @RequestParam(name = "date", required = false) String date
+    public ResponseEntity<List<Course>> findCourseFilterByRating(
+            @RequestParam(name = "rating", required = false) String courseRating
     ){
-        if (date != null) {
-            return new ResponseEntity<>(courseRepository.findAll(), HttpStatus.OK);
+        if (courseRating != null) {
+            return new ResponseEntity<>(courseRepository.findCourseByCourseRating(CourseRating.valueOf(courseRating)), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(courseRepository.findAll(),HttpStatus.OK);
         }
