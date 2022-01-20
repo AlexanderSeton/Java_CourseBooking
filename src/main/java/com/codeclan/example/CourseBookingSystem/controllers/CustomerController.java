@@ -41,9 +41,18 @@ public class CustomerController {
         }
         return new ResponseEntity<>(payload, HttpStatus.NOT_FOUND);
     }
-
+    
     @GetMapping(value = "/customers/bookings/courses")
-    public ResponseEntity<List<Customer>> findCustomersThatHaveCourseIdQueryString( @RequestParam(name = "id") Long id){
-        return new ResponseEntity<>(customerRepository.findCustomersByBookingsCourseId(id.longValue()), HttpStatus.OK);
+    public ResponseEntity<List<Customer>> findCustomersThatHaveCourseIdQueryString(
+            @RequestParam(name = "id") Long id,
+            @RequestParam(name = "town") String town
+    ){
+        if (id != null && town != null){
+            return new ResponseEntity<>(customerRepository.findCustomersByTownAndBookingsCourseId(town, id.longValue()), HttpStatus.OK);
+        } else if (id != null && town == null){
+            return new ResponseEntity<>(customerRepository.findCustomersByBookingsCourseId(id.longValue()), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(customerRepository.findAll(), HttpStatus.NOT_FOUND);
+        }
     }
 }
