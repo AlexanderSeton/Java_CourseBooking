@@ -40,15 +40,6 @@ public class DataLoader implements ApplicationRunner {
         Course course3 = new Course("Soft Dev", "Edinburgh", CourseRating.FIVE);
         courseRepository.save(course3);
 
-        Booking booking1 = new Booking(LocalDate.of(2022, 6, 20));
-        bookingRepository.save(booking1);
-
-        Booking booking2 = new Booking(LocalDate.of(2023, 12, 25));
-        bookingRepository.save(booking2);
-
-        Booking booking3 = new Booking(LocalDate.now());
-        bookingRepository.save(booking3);
-
         Customer customer1 = new Customer("Craig","Livingston", 25);
         customerRepository.save(customer1);
 
@@ -57,5 +48,25 @@ public class DataLoader implements ApplicationRunner {
 
         Customer customer3 = new Customer("Ross","Leith", 31);
         customerRepository.save(customer3);
+
+        Booking booking1 = new Booking(LocalDate.of(2022, 6, 20), course1,customer1);
+        bookingRepository.save(booking1);
+
+        Booking booking2 = new Booking(LocalDate.of(2023, 12, 25), course2, customer2);
+        bookingRepository.save(booking2);
+
+        Booking booking3 = new Booking(LocalDate.now(), course3, customer3);
+        bookingRepository.save(booking3);
+
+        // adding bookings to courses
+        course1.addBooking(booking1);
+        course2.addBooking(booking2);
+        course3.addBooking(booking3);
+
+        // adding bookings to customer
+        customer1.addBooking(booking1);
+        customer2.addBooking(booking2);
+        customer3.addBooking(booking3);
+
     }
 }
