@@ -41,15 +41,32 @@ public class CustomerController {
         }
         return new ResponseEntity<>(payload, HttpStatus.NOT_FOUND);
     }
-    
+
+//    @GetMapping(value = "/customers/bookings/courses")
+//    public ResponseEntity<List<Customer>> findCustomersThatHaveCourseIdQueryString(
+//            @RequestParam(name = "id") Long id,
+//            @RequestParam(name = "town") String town
+//    ){
+//        if (id != null && town != null){
+//            return new ResponseEntity<>(customerRepository.findCustomersByTownAndBookingsCourseId(town, id.longValue()), HttpStatus.OK);
+//        } else if (id != null && town == null){
+//            return new ResponseEntity<>(customerRepository.findCustomersByBookingsCourseId(id.longValue()), HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(customerRepository.findAll(), HttpStatus.NOT_FOUND);
+//        }
+//    }
+
     @GetMapping(value = "/customers/bookings/courses")
     public ResponseEntity<List<Customer>> findCustomersThatHaveCourseIdQueryString(
-            @RequestParam(name = "id") Long id,
-            @RequestParam(name = "town") String town
+            @RequestParam(name = "id", required = false) Long id,
+            @RequestParam(name = "town", required = false) String town,
+            @RequestParam(name = "age", required = false) Integer age
     ){
-        if (id != null && town != null){
+        if (id != null && town != null && age != null) {
+            return new ResponseEntity<>(customerRepository.findCustomersByTownAndBookingsCourseIdAndAgeGreaterThan(town, id.longValue(), age), HttpStatus.OK);
+        } else if (id != null && town != null){
             return new ResponseEntity<>(customerRepository.findCustomersByTownAndBookingsCourseId(town, id.longValue()), HttpStatus.OK);
-        } else if (id != null && town == null){
+        } else if (id != null){
             return new ResponseEntity<>(customerRepository.findCustomersByBookingsCourseId(id.longValue()), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(customerRepository.findAll(), HttpStatus.NOT_FOUND);
