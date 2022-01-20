@@ -19,6 +19,7 @@ public class Course {
     private String town;
 
     @Column(name = "course_rating")
+    @Enumerated(value = EnumType.ORDINAL)
     private CourseRating courseRating;
 
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
